@@ -7,7 +7,7 @@ ARG USER_GID=1000
 # Base tools + psql 18 from the official PostgreSQL apt repo
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      ca-certificates curl git sudo less procps bash-completion postgresql-common \
+      ca-certificates curl git sudo less procps bash-completion nano postgresql-common \
  && /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y \
  && apt-get install -y --no-install-recommends postgresql-client-18 \
  && rm -rf /var/lib/apt/lists/*
@@ -19,7 +19,8 @@ RUN groupadd --gid "$USER_GID" "$USERNAME" \
  && chmod 0440 "/etc/sudoers.d/$USERNAME"
 
 # Terminal colors (IDE terminals often start with TERM unset or "dumb")
-ENV TERM=xterm-256color \
+ENV EDITOR=nano \
+    TERM=xterm-256color \
     COLORTERM=truecolor
 COPY .devcontainer/bashrc /tmp/stackq-bashrc
 RUN cat /tmp/stackq-bashrc >> /etc/bash.bashrc && rm /tmp/stackq-bashrc
