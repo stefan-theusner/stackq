@@ -1,9 +1,15 @@
 services:
   app:
-    image: mcr.microsoft.com/devcontainers/base:bookworm
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
     volumes:
       - ..:/workspaces/stackq:cached
     command: sleep infinity
+    # Set here (not in devcontainer.json remoteEnv) so docker exec sees them too
+    environment:
+      DATABASE_URL: postgresql://stackq:stackq@db:5432/stackq
+      OLLAMA_HOST: http://host.docker.internal:11434
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:

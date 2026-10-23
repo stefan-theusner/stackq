@@ -11,7 +11,7 @@ This file provides guidance to AI coding agents when working with code in this r
 Tasks are defined in `mise.toml` (mise also creates and activates `.venv`):
 
 ```bash
-mise run install          # pip install -e '.[dev]'
+mise run install          # pip install -r requirements-dev.txt && pip install -e . --no-deps
 mise run test             # pytest
 mise run lint             # ruff check . && ruff format --check .
 pytest tests/test_chunker.py::test_chunks_overlap   # single test
@@ -22,7 +22,7 @@ Ruff line length is 100. Python is pinned to 3.15.0 (`requires-python >=3.15`).
 
 ## Environment
 
-- Normally developed in the VS Code devcontainer (`.devcontainer/`): an `app` container plus a `db` container running `pgvector/pgvector:pg18`. `db/init.sql` is applied only on first creation of the `pgdata` volume, so schema changes need the volume recreated (or a manual migration).
+- Normally developed in the VS Code devcontainer (`.devcontainer/`): an `app` container plus a `db` container running `pgvector/pgvector:pg18`. The `app` image (`.devcontainer/Dockerfile`) runs as the non-root user `stackq` and bakes in psql 18 and mise + Python; mise shims and `.venv/bin` are on `PATH` via `ENV`, so every shell (IDE terminal, `docker exec`) finds Python. `db/init.sql` is applied only on first creation of the `pgdata` volume, so schema changes need the volume recreated (or a manual migration).
 - Ollama runs on the **host Mac** (for the GPU), not in a container. Inside the devcontainer, `OLLAMA_HOST=http://host.docker.internal:11434` and `DATABASE_URL=...@db:5432/...`; `mise.toml` and `config.py` fall back to `localhost` outside it.
 - Models are overridable via `STACKQ_EMBED_MODEL` (default `nomic-embed-text`) and `STACKQ_CHAT_MODEL` (default `llama3.1:8b`).
 

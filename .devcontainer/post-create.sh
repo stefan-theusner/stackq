@@ -1,21 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Install psql 18 from the official PostgreSQL apt repo (Debian's default is older)
-sudo apt-get update
-sudo apt-get install -y --no-install-recommends postgresql-common
-sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
-sudo apt-get install -y --no-install-recommends postgresql-client-18
+# psql and Python (via mise) are already baked into the image (see Dockerfile).
+# This script only sets up the project's virtualenv.
 
-# Install mise and activate it for future shells
-curl -fsSL https://mise.run | sh
-export PATH="$HOME/.local/bin:$PATH"
-echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
-echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc 2>/dev/null || true
-
-# Install Python from mise.toml (postgres is skipped: it runs in the db container)
-mise trust
-mise install python
+# Recreate .venv so it points at this container's Python
+# (an old .venv may link to a Python from a previous container).
+rm -rf .venv
+python -m venv .venv
 mise run install
 
-echo "✅ stackq devcontainer ready. Ollama is expected on the host at \$OLLAMA_HOST."
+# Nice-to-have for interactive shells: load mise.toml env vars on cd
+grep -q 'mise activate bash' ~/.bashrc || echo 'eval "$(mise activate bash)"' >> ~/.bashrc
+
+echo "✅ stackq devcontainer ready ($(python --version), $(psql --version))."
+echo "   Ollama is expected on the host at $OLLAMA_HOST."

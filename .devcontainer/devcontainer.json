@@ -4,15 +4,9 @@
   "service": "app",
   "workspaceFolder": "/workspaces/stackq",
   "shutdownAction": "stopCompose",
-  "features": {
-    "ghcr.io/devcontainers/features/common-utils:2": {},
-    "ghcr.io/devcontainers/features/git:1": {}
-  },
+  "remoteUser": "stackq",
+  "containerUser": "stackq",
   "postCreateCommand": "bash .devcontainer/post-create.sh",
-  "remoteEnv": {
-    "DATABASE_URL": "postgresql://stackq:stackq@db:5432/stackq",
-    "OLLAMA_HOST": "http://host.docker.internal:11434"
-  },
   "forwardPorts": [5432],
   "customizations": {
     "vscode": {
