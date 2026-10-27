@@ -1,8 +1,9 @@
 services:
   app:
-    build:
-      context: ..
-      dockerfile: .devcontainer/Dockerfile
+    image: stackq-app:dev
+    #build:
+    #  context: ..
+    #  dockerfile: .devcontainer/Dockerfile
     volumes:
       - ..:/workspaces/stackq:cached
     command: sleep infinity

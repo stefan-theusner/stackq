@@ -1,5 +1,5 @@
 [tools]
-python = "3.15.0"
+python = "3.12.15"
 
 [env]
 # PostgreSQL runs in the devcontainer (image pgvector/pgvector:pg18), not via mise

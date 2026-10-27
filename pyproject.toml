@@ -3,7 +3,7 @@ name = "stackq"
 version = "0.1.0"
 description = "Ask questions about the STACKIT docs using local AI models (RAG)"
 readme = "README.md"
-requires-python = ">=3.15"
+requires-python = ">=3.12"
 # Runtime deps: requirements.txt  |  dev tools: requirements-dev.txt
 dynamic = ["dependencies"]
 

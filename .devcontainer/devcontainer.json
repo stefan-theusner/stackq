@@ -6,8 +6,8 @@
   "shutdownAction": "stopCompose",
   "remoteUser": "stackq",
   "containerUser": "stackq",
+  "initializeCommand": "docker build -t stackq-app:dev -f .devcontainer/Dockerfile .",
   "postCreateCommand": "bash .devcontainer/post-create.sh",
-  "forwardPorts": [5432],
   "customizations": {
     "vscode": {
       "extensions": [

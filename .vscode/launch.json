@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "chunker",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "stackq.chunker",
+      "cwd": "${workspaceFolder}",
+      "justMyCode": true
+    },
+    {
+      "name": "Current file (as module)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "stackq.${fileBasenameNoExtension}",
+      "cwd": "${workspaceFolder}",
+      "justMyCode": true
+    },
+    {
+      "name": "stackq CLI",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "stackq.cli",
+      "args": "${input:cliArgs}",
+      "cwd": "${workspaceFolder}",
+      "justMyCode": true
+    }
+  ],
+  "inputs": [
+    {
+      "id": "cliArgs",
+      "type": "promptString",
+      "description": "stackq arguments, e.g. scrape --limit 2",
+      "default": "version"
+    }
+  ]
+}
