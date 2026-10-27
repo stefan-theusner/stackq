@@ -65,20 +65,20 @@ def index_and_store_doc(conn, url: str, title: str, category: str, clean_markdow
     print("Done")
 
 def index_and_store(limit: int | None = None):
-    conn = connect()
     pairs = get_meta_markdown_pairs()
     if limit is not None:
         pairs = pairs[:limit]
     ok = failed = 0        
-    for pair in pairs:
-        try: 
-            metadata = pair.read_meta()
-            index_and_store_doc(conn, metadata.url, metadata.title, metadata.category, pair.read_content())
-            ok += 1
-        except Exception as e:
-            conn.rollback()
-            failed += 1
-            print(f"Error while chunking {e}")
+    with connect() as conn:
+        for pair in pairs:
+            try: 
+                metadata = pair.read_meta()
+                index_and_store_doc(conn, metadata.url, metadata.title, metadata.category, pair.read_content())
+                ok += 1
+            except Exception as e: # noqa: BLE001 - skip the page, keep indexing the rest
+                conn.rollback()
+                failed += 1
+                print(f"Error while chunking {e}")
     print(f"Done: {ok} pages scraped, {failed} failed")
     return ok, failed
 

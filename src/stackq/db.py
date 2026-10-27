@@ -3,7 +3,6 @@ from pgvector.psycopg import register_vector
 from psycopg.rows import dict_row
 
 from stackq.config import DATABASE_URL
-from stackq.model import ChatMessage
 
 
 def connect() -> psycopg.Connection:

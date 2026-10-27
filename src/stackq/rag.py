@@ -1,6 +1,5 @@
 import toons
 from ollama import ChatResponse, Client
-from psycopg.rows import dict_row
 
 from stackq.config import CHAT_MODEL, EMBED_MODEL, OLLAMA_HOST
 from stackq.db import connect, search
